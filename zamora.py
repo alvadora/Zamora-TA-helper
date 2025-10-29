@@ -427,7 +427,7 @@ def TA_page():
     if itemtype == 'TA materials':
             item = st.selectbox('Choose the equipment:',options = TA_mat_list, placeholder = 'moon rock')
     if itemtype == 'catalysts':
-            item = st.selectbox('Choose the equipment:',options = catalyst_list, placeholder = 'moon rock')
+            item = st.selectbox('Choose the equipment:',options = catalyst_list, placeholder = 'demon orb')
     mat_lines = get_crafting_tree_string(item,1)
     mat_text = "\n".join(mat_lines)
     st.write("Required materials:")
