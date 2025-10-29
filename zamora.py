@@ -1,6 +1,8 @@
 import streamlit as st
 from collections import defaultdict
 
+st.set_page_config(layout="wide")
+
 item_type = ['equipment','TA materials','catalysts']
 
 equipment_list = ['sengoku hakase badge','outlaw heart','sweetwater ring',
@@ -248,7 +250,8 @@ def TA_page():
     mat_text = "\n".join(mat_lines)
     st.write("Required materials:")
     st.code(mat_text)
-
+    st.write('Total material quantity required:')
+    st.write(get_base_requirements(item))
 
 pages = {'TA helper':[
     st.Page(TA_page, title ='TA helper')
