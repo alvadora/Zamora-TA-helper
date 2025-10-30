@@ -419,7 +419,7 @@ def get_crafting_tree_string(item, qty=1, indent="", is_last=True):
     return lines
 
 def TA_page():
-    st.title('TA help')
+    st.title('TA helper')
     st.divider()
     itemtype = st.selectbox("Choose a category:", options= item_type, placeholder = 'equipment')
     if itemtype == 'equipment':
@@ -441,3 +441,4 @@ pages = {'TA helper':[
 
 pg = st.navigation(pages)
 pg.run()
+
