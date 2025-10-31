@@ -420,6 +420,7 @@ def get_crafting_tree_string(item, qty, indent="", is_last=True):
 
 def TA_page():
     st.title('TA helper')
+    st.markdown("<h3 style = 'text-align: center; color: white; ">TA Material Calculator</h3>", unsafe_allow_html = True)
     st.divider()
     col1, col2 = st.columns([3,2], vertical_alignment = 'bottom')
 
@@ -455,3 +456,4 @@ pages = {'TA helper':[
 
 pg = st.navigation(pages)
 pg.run()
+
