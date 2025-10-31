@@ -385,7 +385,7 @@ materials = {}
 for d in mats:
     materials.update(d)
     
-def get_base_requirements(item,qty=1):
+def get_base_requirements(item,qty):
     if item not in materials:
         return {item:qty}
     
@@ -400,7 +400,7 @@ def get_base_requirements(item,qty=1):
             total[k]+=v
     return dict(total)
 
-def get_crafting_tree_string(item, qty=1, indent="", is_last=True):
+def get_crafting_tree_string(item, qty, indent="", is_last=True):
     lines = []
     branch = "└─ " if is_last else "├─ "
     lines.append(f"{indent}{branch}{item} (x{qty})")
@@ -421,19 +421,33 @@ def get_crafting_tree_string(item, qty=1, indent="", is_last=True):
 def TA_page():
     st.title('TA helper')
     st.divider()
-    itemtype = st.selectbox("Choose a category:", options= item_type, placeholder = 'equipment')
-    if itemtype == 'equipment':
-        item = st.selectbox('Choose the equipment:',options = equipment_list, placeholder = 'outlaw heart')
-    if itemtype == 'TA materials':
+    col1, col2 = st.columns([3,2], vertical_alignment = 'bottom')
+
+    with col1:
+        itemtype = st.selectbox("Choose a category:", options= item_type, placeholder = 'equipment')
+        if itemtype == 'equipment':
+            item = st.selectbox('Choose the equipment:',options = equipment_list, placeholder = 'outlaw heart')
+        if itemtype == 'TA materials':
             item = st.selectbox('Choose the equipment:',options = TA_mat_list, placeholder = 'moon rock')
-    if itemtype == 'catalysts':
+        if itemtype == 'catalysts':
             item = st.selectbox('Choose the equipment:',options = catalyst_list, placeholder = 'demon orb')
-    mat_lines = get_crafting_tree_string(item,1)
+    with col2:
+        qty = st.number_input('Quantity:',
+                            min_value = 1,
+                            max_value = 999,
+                            value = 1,
+                            step = 1)
+        
+    mat_lines = get_crafting_tree_string(item,qty)
     mat_text = "\n".join(mat_lines)
-    st.write("Required materials:")
-    st.code(mat_text)
-    st.write('Total material quantity required:')
-    st.write(get_base_requirements(item))
+
+    col3, col4 = st.columns([1,1], vertical_alignment = 'top')
+    with col3:
+        st.write("Required materials:")
+        st.code(mat_text)
+    with col4:
+        st.write('Total material quantity required:')
+        st.write(get_base_requirements(item,qty))
 
 pages = {'TA helper':[
     st.Page(TA_page, title ='TA helper')
@@ -441,4 +455,3 @@ pages = {'TA helper':[
 
 pg = st.navigation(pages)
 pg.run()
-
