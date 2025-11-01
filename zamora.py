@@ -185,6 +185,7 @@ mats = [
                                     'moon rock':35,
                                     'star rock':35,
                                     'primal essence':40,
+                                    'philosopher stone': 60,
                                     'twisted time':8000,
                                     'sealed wiseman stone':2,
                                     'sealed warrior stone':2,
@@ -197,6 +198,7 @@ mats = [
                                 'moon rock':35,
                                 'star rock':35,
                                 'primal essence':40,
+                                'philosopher stone':60,
                                 'twisted time':8000,
                                 'sealed wiseman stone':2,
                                 'sealed warrior stone':2,
@@ -212,9 +214,9 @@ mats = [
                       'primal essence':50,
                       'philosopher stone':70,
                       'twisted time':9000,
-                      'sealed wiseman stone':2,
-                       'sealed warrior stone':2,
-                       'sealed saint stone':2}},
+                      'sealed wiseman stone':4,
+                       'sealed warrior stone':4,
+                       'sealed saint stone':4}},
 
     {'pno secondary':{'onyx secondary':1,
                      'sloth':1,
@@ -456,6 +458,7 @@ pages = {'TA helper':[
 
 pg = st.navigation(pages)
 pg.run()
+
 
 
 
