@@ -248,7 +248,7 @@ mats = [
                       'sealed wiseman stone':8,
                       'sealed warrior stone':8,
                       'sealed saint stone':8,
-                      'abso weapon':1,
+                      'corresponding abso weapon':1,
                       }},
 
     {'arcane hat/overall/shoulder':{'pride':7,
@@ -266,7 +266,7 @@ mats = [
                                      'sealed wiseman stone':9,
                                      'sealed warrior stone':9,
                                      'sealed saint stone':9,
-                                     'absolab hat/overall/shoulder':1}},
+                                     'corresponding absolab hat/overall/shoulder':1}},
 
     {'arcane shoes/glove/cape':{'wrath':7,
                                  'envy':5,
@@ -283,7 +283,7 @@ mats = [
                                  'sealed wiseman stone':9,
                                  'sealed warrior stone':9,
                                  'sealed saint stone':9,
-                                 'absolab shoes/glove/cape':1}},
+                                 'corresponding absolab shoes/glove/cape':1}},
     
     {'emerald essence':{'opal':3,
                         'sapphire':3,
@@ -480,6 +480,7 @@ pages = {'TA helper':[
 
 pg = st.navigation(pages)
 pg.run()
+
 
 
 
