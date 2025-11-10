@@ -6,7 +6,7 @@ st.set_page_config(layout="wide")
 item_type = ['equipment','TA materials','catalysts']
 
 equipment_list = ['sengoku hakase badge','outlaw heart','sweetwater ring',
-'absolab hat/overall/shoulder','absolab shoes/glove/cape','absolab weapon','pno secondary','arcane hat/overall/shoulder','arcane shoes/glove/cape','arcane weapon']
+'absolab hat/overall/shoulder','absolab shoes/glove/cape','absolab weapon','pno secondary','arcane hat/overall/shoulder','arcane shoes/glove/cape','arcane weapon', 'genesis weapon']
 
 TA_mat_list = ['black scroll (level 2)','black scroll (level 3)','scroll of secrets','condensed crystal','fine spell essence',
     'grand spell essence','forever unrelenting flame','fragment of destiny','dusk essence','brilliant dusk essence','dream stone',
@@ -499,6 +499,7 @@ pages = {'TA helper':[
 
 pg = st.navigation(pages)
 pg.run()
+
 
 
 
