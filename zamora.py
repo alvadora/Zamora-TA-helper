@@ -68,6 +68,7 @@ mats = [
     {'wrath':{}},
     {'pride':{}},
     {'onyx secondary':{}},
+    {'black mage remnanet':{}},
 
     {'black scroll (level 2)': {'black scroll (level 1)':3,
                                   'soul elixir':3}},
@@ -284,6 +285,24 @@ mats = [
                                  'sealed warrior stone':9,
                                  'sealed saint stone':9,
                                  'corresponding absolab shoes/glove/cape':1}},
+
+    {'genesis weapon':{'wrath':8,
+                       'pride':8,
+                       'sloth':5,
+                       'envy':5,
+                       'grand spell essence':150,
+                       'scroll of secrets':6,
+                       'condensed crystal':200,
+                       'moon rock':200,
+                       'star rock':200,
+                       'corresponding arcane weapon':1,
+                       'primal essence':180,
+                       'philosopher stone':250,
+                       'twisted time':30000,
+                       'sealed wiseman stone':12,
+                       'sealed warrior stone':12,
+                       'sealed saint stone':12,
+                       'black mage remnant':3}},
     
     {'emerald essence':{'opal':3,
                         'sapphire':3,
@@ -480,6 +499,7 @@ pages = {'TA helper':[
 
 pg = st.navigation(pages)
 pg.run()
+
 
 
 
