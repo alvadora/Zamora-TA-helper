@@ -487,10 +487,10 @@ def TA_page():
 
     col3, col4 = st.columns([1,1], vertical_alignment = 'top')
     with col3:
-        st.write("Required materials:")
+        st.write("Crafting path:")
         st.code(mat_text)
     with col4:
-        st.write('Total material quantity required:')
+        st.write('Total quantity required:')
         st.write(get_base_requirements(item,qty))
 
 pages = {'TA helper':[
@@ -499,6 +499,7 @@ pages = {'TA helper':[
 
 pg = st.navigation(pages)
 pg.run()
+
 
 
 
