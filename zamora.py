@@ -68,7 +68,7 @@ mats = [
     {'wrath':{}},
     {'pride':{}},
     {'onyx secondary':{}},
-    {'black mage remnanet':{}},
+    {'black mage remnnant':{}},
 
     {'black scroll (level 2)': {'black scroll (level 1)':3,
                                   'soul elixir':3}},
@@ -499,6 +499,7 @@ pages = {'TA helper':[
 
 pg = st.navigation(pages)
 pg.run()
+
 
 
 
