@@ -5,8 +5,11 @@ st.set_page_config(layout="wide")
 
 item_type = ['equipment','TA materials','catalysts']
 
-equipment_list = ['sengoku hakase badge','outlaw heart','sweetwater ring',
-'absolab hat/overall/shoulder','absolab shoes/glove/cape','absolab weapon','pno secondary','arcane hat/overall/shoulder','arcane shoes/glove/cape','arcane weapon', 'genesis weapon']
+equipment_list = ['sengoku hakase badge','outlaw heart','sweetwater ring','black heart',
+                  'absolab hat/overall/shoulder','absolab shoes/glove/cape','absolab weapon',
+                  'pno secondary',
+                  'arcane hat/overall/shoulder','arcane shoes/glove/cape','arcane weapon', 
+                  'genesis weapon']
 
 TA_mat_list = ['black scroll (level 2)','black scroll (level 3)','scroll of secrets','condensed crystal','fine spell essence',
     'grand spell essence','forever unrelenting flame','fragment of destiny','dusk essence','brilliant dusk essence','dream stone',
@@ -60,7 +63,7 @@ mats = [
     {'sealed warrior stone':{}},
     {'superior lidium heart':{}},
     {'commerci denaro':{}},
-    {'monster park mommemorative moin':{}},
+    {'monster park mommemorative coin':{}},
     {'gollux coin':{}},
     {'primal essence':{}},
     {'sloth':{}},
@@ -69,6 +72,9 @@ mats = [
     {'pride':{}},
     {'onyx secondary':{}},
     {'black mage remnnant':{}},
+    {'damaged black heart':{}},
+    {'superior lidium heart':{}},
+    
 
     {'black scroll (level 2)': {'black scroll (level 1)':3,
                                   'soul elixir':3}},
@@ -178,6 +184,16 @@ mats = [
                         'sealed wiseman stone':3,
                         'sealed warrior stone':3,
                         'sealed saint stone':3}},
+
+    {'black heart':{'outlaw heart':1,
+                    'damaged black heart':3,
+                    'superior lidium heart':2,
+                    'commerci denaro':2000,
+                    'monster park commemorative coin':200,
+                    'gollux coin':100,
+                    'sealed wiseman stone':8,
+                    'sealed warrior stone':8,
+                    'sealed saint stone':8}},
 
     {'absolab hat/overall/shoulder':{'sloth':7,
                                     'grand spell essence':40,
@@ -499,6 +515,7 @@ pages = {'TA helper':[
 
 pg = st.navigation(pages)
 pg.run()
+
 
 
 
