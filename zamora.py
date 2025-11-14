@@ -287,19 +287,19 @@ mats = [
 
     {'arcane shoes/glove/cape':{'wrath':7,
                                  'envy':5,
-                                 'grand spell essence':90,
+                                 'grand spell essence':70,
                                  'scroll of secrets':4,
-                                 'condensed crystal':100,
-                                 'moon rock':100,
-                                 'star rock':100,
-                                 'opal':200,
-                                 'sapphire':200,
+                                 'condensed crystal':90,
+                                 'moon rock':90,
+                                 'star rock':90,
+                                 'bronze plate':150,
+                                 'mithril plate':150,
                                  'primal essence':100,
                                  'philosopher stone':150,
                                  'twisted time':15000,
-                                 'sealed wiseman stone':9,
-                                 'sealed warrior stone':9,
-                                 'sealed saint stone':9,
+                                 'sealed wiseman stone':8,
+                                 'sealed warrior stone':8,
+                                 'sealed saint stone':8,
                                  'corresponding absolab shoes/glove/cape':1}},
 
     {'genesis weapon':{'wrath':8,
@@ -515,6 +515,7 @@ pages = {'TA helper':[
 
 pg = st.navigation(pages)
 pg.run()
+
 
 
 
