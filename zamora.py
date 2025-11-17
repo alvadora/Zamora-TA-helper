@@ -481,33 +481,94 @@ def TA_page():
     st.markdown("<h3 style='text-align: center; color: white;'>ZamoraMS</h3>", unsafe_allow_html=True)
     st.markdown("<h6 style = 'text-align: center; color: white; '>TA Material Calculator</h6>", unsafe_allow_html = True)
     st.divider()
-    col1, col2 = st.columns([3,2], vertical_alignment = 'bottom')
+    st.caption("Add items to build a combined materials list")
+
+    col1, col2, = st.columns([3,2], vertical_alignment = 'center')
+
+    # initialize cart in session state
+    if 'cart' not in st.session_state:
+        st.session_state['cart'] = []
 
     with col1:
-        itemtype = st.selectbox("Choose a category:", options= item_type, placeholder = 'equipment')
-        if itemtype == 'equipment':
-            item = st.selectbox('Choose the equipment:',options = equipment_list, placeholder = 'outlaw heart')
-        if itemtype == 'TA materials':
-            item = st.selectbox('Choose the equipment:',options = TA_mat_list, placeholder = 'moon rock')
-        if itemtype == 'catalysts':
-            item = st.selectbox('Choose the equipment:',options = catalyst_list, placeholder = 'demon orb')
+        # Single-selection controls (used to add items to the cart)
+        sel_type = st.selectbox("Choose a category:", options= item_type, key='sel_itemtype')
+        if sel_type == 'equipment':
+            sel_item = st.selectbox('Choose the equipment:', options=equipment_list, key='sel_item')
+        if sel_type == 'TA materials':
+            sel_item = st.selectbox('Choose the equipment:', options=TA_mat_list, key='sel_item')
+        if sel_type == 'catalysts':
+            sel_item = st.selectbox('Choose the equipment:', options=catalyst_list, key='sel_item')
+        sel_qty = st.number_input('Quantity:',
+                                 min_value = 1,
+                                 max_value = 999,
+                                 value = 1,
+                                 step = 1,
+                                 key='sel_qty')
     with col2:
-        qty = st.number_input('Quantity:',
-                            min_value = 1,
-                            max_value = 999,
-                            value = 1,
-                            step = 1)
-        
-    mat_lines = get_crafting_tree_string(item,qty)
-    mat_text = "\n".join(mat_lines)
+        def add_item():
+            entry = {'itemtype': st.session_state.get('sel_itemtype', 'equipment'),
+                     'item': st.session_state.get('sel_item'),
+                     'qty': st.session_state.get('sel_qty', 1)}
+            st.session_state.cart.append(entry)
 
+        st.button('Add item', on_click=add_item)
+
+    # display cart and allow removals
+    st.divider()
+    st.write('Items to include:')
+    if st.session_state.cart:
+        for i, entry in enumerate(list(st.session_state.cart)):
+            cols = st.columns([8,1])
+            cols[0].write(f"{i+1}. {entry['item']} (x{entry['qty']}) — {entry['itemtype']}")
+
+            def make_remove(idx):
+                def _remove():
+                    # remove by index
+                    if 0 <= idx < len(st.session_state.cart):
+                        st.session_state.cart.pop(idx)
+                return _remove
+
+            cols[1].button('Remove', key=f'remove_{i}', on_click=make_remove(i))
+    else:
+        st.write('No items added yet — use the controls above and click "Add item"')
+
+    # Show crafting paths and totals. If cart empty, show current single selection as before.
+    st.divider()
     col3, col4 = st.columns([1,1], vertical_alignment = 'top')
     with col3:
         st.write("Crafting path:")
-        st.code(mat_text)
+        if st.session_state.cart:
+            # show each item's crafting tree
+            for i, entry in enumerate(st.session_state.cart):
+                st.write(f"Item {i+1}: {entry['item']} (x{entry['qty']})")
+                mat_lines = get_crafting_tree_string(entry['item'], entry['qty'])
+                st.code("\n".join(mat_lines))
+        else:
+            # fallback to current selection
+            item = st.session_state.get('sel_item')
+            qty = st.session_state.get('sel_qty', 1)
+            mat_lines = get_crafting_tree_string(item, qty)
+            st.code("\n".join(mat_lines))
+
     with col4:
         st.write('Total quantity required:')
-        st.write(get_base_requirements(item,qty))
+        combined = defaultdict(int)
+        if st.session_state.cart:
+            for entry in st.session_state.cart:
+                reqs = get_base_requirements(entry['item'], entry['qty'])
+                for k, v in reqs.items():
+                    combined[k] += v
+        else:
+            item = st.session_state.get('sel_item')
+            qty = st.session_state.get('sel_qty', 1)
+            combined = get_base_requirements(item, qty)
+
+        # display as plain lines so strings don't show Python-style quotes
+        if combined:
+            for k, v in dict(combined).items():
+                st.write(f"{k}: {v}")
+        else:
+            st.write({})
 
 pages = {'TA helper':[
     st.Page(TA_page, title ='TA helper')
@@ -515,7 +576,6 @@ pages = {'TA helper':[
 
 pg = st.navigation(pages)
 pg.run()
-
 
 
 
