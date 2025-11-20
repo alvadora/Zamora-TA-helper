@@ -18,7 +18,7 @@ TA_mat_list = ['black scroll (level 2)','black scroll (level 3)','scroll of secr
 catalyst_list = ['emerald essence','strength essence','magic essence','time essence','stamina essence',
                  'life crystal','wind crystal','star crystal',
                  'dexterity stone','freedom stone','crimson stone','potent ruby','dream ruby','moon element',
-                 'rage orb','soul orb','wealth orb','demon orb']
+                 'rage orb','soul orb','wealth orb','demon orb','evil hammer','soul amplifier']
 
 mats = [
     {'depleted soul stone':{}},
@@ -435,8 +435,29 @@ mats = [
                   'stamina essence':4,
                   'life crystal':1,
                   'black scroll (level 3)':1,
-                  'soul elixir':2}}
+                  'soul elixir':2}},
 
+    {'evil hammer':{'moon rock':6,
+                    'confusion fragment':15,
+                    'condensed crystal':6,
+                    'grand spell essence':10,
+                    'scroll of secrets':1,
+                    'primal essence':2,
+                    'forever unrelenting flame':10,
+                    'star rock':6,
+                    'depleted soul stone':30}},
+
+    {'soul amplifier':{'twisted time':1000,
+                       'mana crystal':100,
+                       'philosopher stone':15,
+                       'forever unrelenting flame':10,
+                       'brilliant dusk essence':5,
+                       'moon rock':2,
+                       'scroll of secrets':1,
+                       'sealed saint stone':3,
+                       'soul elixir':10,
+                       'depleted soul stone':50,
+                       'life crystal':1}},
 
 ]
 
@@ -477,7 +498,7 @@ def get_crafting_tree_string(item, qty, indent="", is_last=True):
     
     return lines
 
-def TA_page():
+def material_page():
     st.markdown("<h3 style='text-align: center; color: white;'>ZamoraMS</h3>", unsafe_allow_html=True)
     st.markdown("<h6 style = 'text-align: center; color: white; '>TA Material Calculator</h6>", unsafe_allow_html = True)
     st.divider()
@@ -570,8 +591,253 @@ def TA_page():
         else:
             st.write({})
 
-pages = {'TA helper':[
-    st.Page(TA_page, title ='TA helper')
+def TA_catalyst_page():
+    st.markdown("<h3 style='text-align: center; color: white;'>ZamoraMS</h3>", unsafe_allow_html=True)
+    t1_catalyst = ['emerald essence','strength essence','magic essence','time essence','stamina essence']
+    t2_catalyst = ['life crystal','wind crystal','star crystal']
+    t3_catalyst = ['dexterity stone','freedom stone','crimson stone','potent ruby','dream ruby','moon element','soul orb','demon orb']
+    unique_catalyst = ['soul amplifier']
+    catalyst_effects = {
+        'emerald essence':{'success_rate':4,'type':'addition','equipment':['weapon','accessory','ring']},
+        'strength essence':{'attack':6,'success_rate':-3,'type':'addition','equipment':['weapon']},
+        'magic essence':{'magic_attack':6,'success_rate':-3,'type':'addition','equipment':['weapon']},
+        'time essence':{'all_stats':9,'success_rate':-8,'type':'addition','equipment':['weapon','accessory','ring']},
+        'stamina essence':{'max_hp_mp':600,'success_rate':-5,'type':'addition','equipment':['weapon','accessory','ring']},
+        'life crystal':{'success_rate':13,'type':'addition','equipment':['weapon','accessory','ring']},
+        'wind crystal':{'attack':7,'magic_attack':7,'success_rate':-15,'type':'addition','equipment':['weapon','accessory','ring']},
+        'star crystal':{'all_stats':25,'attack':18,'magic_attack':18,'success_rate':-15,'type':'addition','equipment':['weapon']},
+        'dexterity stone':{'all_stats':1.05,'success_rate':-32,'type':'multiplication','equipment':['accessory']},
+        'freedom stone':{'IED':1.2,'success_rate':-25,'type':'multiplication','equipment':['heart']},
+        'crimson stone':{'attack':1.2,'magic_attack':1.2, 'success_rate':-40,'type':'multiplication','equipment':['weapon']},
+        'potent ruby':{'attack':13,'magic_attack':13,'success_rate':-30,'type':'addition','equipment':['weapon','accessory','ring','armor']},
+        'dream ruby':{'attack':1.05,'magic_attack':1.05,'success_rate':0,'type':'multiplication','equipment':['weapon']},
+        'moon element':{'boss_damage':1.2,'success_rate':-25,'type':'multiplication','equipment':['heart']},
+        'soul orb':{'attack':1.15,'magic_attack':1.15,'all_stats':1.3,'type':'multiplication','success_rate':-45,'equipment':['accessory']},
+        'demon orb':{'max_hp_mp':2500,'success_rate':-20,'type':'addition','equipment':['weapon','accessory','ring']},
+        'soul amplifier':{'success_rate':32,'type':'addition','equipment':['weapon','accessory','ring']}
+    }
+
+    # ensure cart exists and is a list
+    if 'cart' not in st.session_state:
+        st.session_state['cart'] = []
+
+    st.markdown("#### Catalyst selection")
+
+    tier = st.radio("Choose catalyst tier:", options=['T1', 'T2', 'T3', 'Unique'], horizontal=True)
+
+    choices = []
+    if tier == 'T1':
+        choices = t1_catalyst
+    elif tier == 'T2':
+        choices = t2_catalyst
+    elif tier == 'T3':
+        choices = t3_catalyst
+    else:
+        choices = unique_catalyst
+
+    selected = st.multiselect("Select catalysts to add:", options=choices, key='sel_cats')
+    qty = st.number_input('Quantity for each selected catalyst:', min_value=1, max_value=5, value=1, step=1, key='cat_qty')
+
+    def add_selected():
+        # enforce only a total-quantity cap (max 5 units total across all catalyst entries)
+        selected_names = st.session_state.get('sel_cats', [])
+        if not selected_names:
+            return
+
+        existing = [e for e in st.session_state.cart if e.get('itemtype') == 'catalyst']
+        current_total_qty = sum(int(e.get('qty', 1)) for e in existing)
+
+        max_total_qty = 5
+        qty_left = max_total_qty - current_total_qty
+
+        if qty_left <= 0:
+            st.warning(f"Cannot add catalysts: total quantity limit ({max_total_qty}) already reached.")
+            return
+
+        added = 0
+        added_units = 0
+        requested_qty = int(st.session_state.get('cat_qty', 1))
+
+        for name in selected_names:
+            if qty_left <= 0:
+                break
+
+            # determine how many units to add for this entry (can't exceed qty_left)
+            unit_to_add = min(requested_qty, qty_left)
+
+            if unit_to_add <= 0:
+                break
+
+            entry = {'itemtype': 'catalyst', 'item': name, 'tier': tier, 'qty': unit_to_add}
+            st.session_state.cart.append(entry)
+
+            qty_left -= unit_to_add
+            added += 1
+            added_units += unit_to_add
+
+        if added == 0:
+            st.warning("No catalysts were added due to limits.")
+        else:
+            if added < len(selected_names):
+                st.warning(f"Added {added} catalyst(s) ({added_units} unit(s)); some selections were skipped due to quantity limits.")
+            elif added_units < requested_qty * len(selected_names):
+                st.info(f"Added {added} catalyst(s) with reduced quantities to respect the total quantity cap ({max_total_qty}).")
+
+    st.button('Add selected catalysts to cart', on_click=add_selected)
+
+    st.divider()
+
+    st.write('Catalyst cart:')
+    # show only catalyst entries
+    catalyst_entries = [e for e in st.session_state.cart if e.get('itemtype') == 'catalyst']
+    if catalyst_entries:
+        for i, entry in enumerate(list(catalyst_entries)):
+            cols = st.columns([6,1,1])
+            cols[0].write(f"{i+1}. {entry['item']} (tier {entry['tier']}) x{entry['qty']}")
+
+            def make_remove(idx):
+                def _remove():
+                    # remove the idx-th catalyst occurrence among catalysts
+                    # find actual global index in session cart
+                    count = -1
+                    for gi, ge in enumerate(st.session_state.cart):
+                        if ge.get('itemtype') == 'catalyst':
+                            count += 1
+                        if count == idx:
+                            st.session_state.cart.pop(gi)
+                            break
+                return _remove
+
+            cols[1].button('Remove', key=f'remove_cat_{i}', on_click=make_remove(i))
+            # allow quick quantity edit
+            def make_update(idx):
+                def _update():
+                    # show a small prompt isn't possible; instead skip complex inline edits for now
+                    pass
+                return _update
+            cols[2].button('Edit', key=f'edit_cat_{i}', on_click=make_update(i))
+    else:
+        st.write('No catalysts added yet.')
+
+    st.divider()
+
+    # compute cumulative effects and success rate
+    additive = defaultdict(float)
+    multiplicative = defaultdict(lambda: 1.0)
+    total_success = 0.0
+
+    # compute per-unit ordering for success-rate penalties
+    # build a flat ordered list of unit names (each unit represents one catalyst unit)
+    unit_list = []
+    for entry in catalyst_entries:
+        name = entry.get('item')
+        qty = int(entry.get('qty', 1))
+        for _ in range(qty):
+            unit_list.append(name)
+
+    # only consider up to max_total_units (should be <=5 by add logic)
+    max_total_units = 5
+    unit_list = unit_list[:max_total_units]
+
+    # first compute additive and multiplicative effects using quantities
+    for entry in catalyst_entries:
+        name = entry['item']
+        qty = int(entry.get('qty', 1))
+        eff = catalyst_effects.get(name, {})
+        ctype = eff.get('type', 'addition')
+
+        for k, v in eff.items():
+            if k in ('type', 'equipment', 'success_rate'):
+                continue
+            try:
+                val = float(v)
+            except Exception:
+                continue
+
+            if ctype == 'multiplication':
+                multiplicative[k] *= (val ** qty)
+            else:
+                additive[k] += val * qty
+
+    # now compute success rate per unit (so 4th and 5th units get extra -8%)
+    for idx, unit_name in enumerate(unit_list):
+        eff = catalyst_effects.get(unit_name, {})
+        sr = float(eff.get('success_rate', 0.0))
+        # extra penalty for 4th (idx==3) and 5th (idx==4) unit
+        if idx in (3, 4):
+            sr -= 8.0
+        total_success += sr
+
+    st.write('Cumulative catalyst effects:')
+    col_a, col_b = st.columns(2)
+    with col_a:
+        st.write('Additive bonuses:')
+        if additive:
+            for k, v in additive.items():
+                # display integers without decimal when appropriate
+                if abs(v - round(v)) < 1e-8:
+                    v_display = int(round(v))
+                else:
+                    v_display = round(v, 4)
+                st.write(f"{k}: {v_display}")
+        else:
+            st.write('None')
+
+    with col_b:
+        st.write('Multiplicative bonuses:')
+        if multiplicative:
+            for k, v in multiplicative.items():
+                st.write(f"{k}: {round(v,4)}x")
+        else:
+            st.write('None')
+
+
+    st.divider()
+    st.write("Assuming you have 900 TA exp giving you 155% chance to succeed without any catalysts")
+    st.write(f"Success rate: {round(155+total_success,2)} %")
+
+    # --- Item stat input and expected value calculation ---
+    st.markdown('#### Item Stat Calculator')
+    st.markdown('Remember to always apply your additive catalysts before multiplicative ones!')
+    with st.form('item_stats_form'):
+        base_stats = st.number_input('Base All Stats', min_value=0, value=0, step=1)
+        base_attack = st.number_input('Base Attack', min_value=0, value=0, step=1)
+        base_magic = st.number_input('Base Magic Attack', min_value=0, value=0, step=1)
+        submitted = st.form_submit_button('Calculate Expected Value')
+
+    if submitted:
+        # For each stat, determine if additive or multiplicative from catalyst_effects type
+        def get_final_stat(stat_name, base_value):
+            add_total = 0.0
+            mult_total = 1.0
+            for entry in catalyst_entries:
+                name = entry['item']
+                qty = int(entry.get('qty', 1))
+                eff = catalyst_effects.get(name, {})
+                ctype = eff.get('type', 'addition')
+                if stat_name in eff:
+                    try:
+                        val = float(eff[stat_name])
+                    except Exception:
+                        val = 0.0
+                    if ctype == 'addition':
+                        add_total += val * qty
+                    elif ctype == 'multiplication':
+                        mult_total *= val ** qty
+            return (base_value + add_total) * mult_total
+
+        final_stats = get_final_stat('all_stats', base_stats)
+        final_attack = get_final_stat('attack', base_attack)
+        final_magic = get_final_stat('magic_attack', base_magic)
+        final_hpmp = get_final_stat('max_hp_mp', 0)
+
+        st.write(f"Expected All Stats= {final_stats}, Expected Attack = {final_attack}, Expected Magic Attack = {final_magic}, Expected HP/MP = {final_hpmp}")
+
+
+                            
+pages = {'All things TA NPC related':[
+    st.Page(material_page, title ='TA material calculator'),
+    st.Page(TA_catalyst_page, title = 'TA catalyst calculator'),
 ]}
 
 pg = st.navigation(pages)
