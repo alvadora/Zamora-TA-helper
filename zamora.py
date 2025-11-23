@@ -134,7 +134,7 @@ mats = [
                  'sapphire':3,
                  'topaz':3,
                  'diamond':3,
-                 'black crstal':3,
+                 'black crystal':3,
                  'soul elixir':1}},
 
     {'moon rock':{'bronze plate':3,
@@ -842,6 +842,7 @@ pages = {'All things TA NPC related':[
 
 pg = st.navigation(pages)
 pg.run()
+
 
 
 
