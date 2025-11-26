@@ -134,7 +134,7 @@ mats = [
                  'sapphire':3,
                  'topaz':3,
                  'diamond':3,
-                 'black crystal':3,
+                 'black crstal':3,
                  'soul elixir':1}},
 
     {'moon rock':{'bronze plate':3,
@@ -635,7 +635,50 @@ def TA_catalyst_page():
     else:
         choices = unique_catalyst
 
-    selected = st.multiselect("Select catalysts to add:", options=choices, key='sel_cats')
+    def format_cat_option(name):
+        # Build a concise effect description from catalyst_effects and include applicable equipment types
+        eff = catalyst_effects.get(name, {})
+        if not eff:
+            return name
+        items = []
+        # include success_rate and type first if present
+        if 'type' in eff:
+            items.append(f"Type: {eff['type']}")
+        # include numeric/stat effects (skip equipment list for now)
+        stat_parts = []
+        for k, v in eff.items():
+            if k in ('success_rate', 'type', 'equipment'):
+                continue
+            # format lists/strings simply
+            if isinstance(v, list):
+                stat_parts.append(f"{k}: {', '.join(map(str, v))}")
+            else:
+                # shorten floating values for display
+                try:
+                    fv = float(v)
+                    if abs(fv - round(fv)) < 1e-8:
+                        val_str = str(int(round(fv)))
+                    else:
+                        val_str = str(round(fv, 4))
+                except Exception:
+                    val_str = str(v)
+                stat_parts.append(f"{k}: {val_str}")
+        if stat_parts:
+            items.append('; '.join(stat_parts))
+
+        # also show equipment applicability (if present) to indicate where this catalyst can be used
+        eq = eff.get('equipment')
+        if eq:
+            # ensure we display a short list like "applies: weapon/accessory"
+            if isinstance(eq, list):
+                items.append(f"Works on: {', '.join(eq)}")
+            else:
+                items.append(f"Works on: {eq}")
+
+        # make a compact display string: name (SR, mode; stats; applies)
+        return f"{name} ({'; '.join(items)})"
+
+    selected = st.multiselect("Select catalysts to add:", options=choices, key='sel_cats', format_func=format_cat_option)
     qty = st.number_input('Quantity for each selected catalyst:', min_value=1, max_value=5, value=1, step=1, key='cat_qty')
 
     def add_selected():
@@ -842,7 +885,6 @@ pages = {'All things TA NPC related':[
 
 pg = st.navigation(pages)
 pg.run()
-
 
 
 
