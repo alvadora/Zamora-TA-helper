@@ -642,6 +642,10 @@ def TA_catalyst_page():
             return name
         items = []
         # include success_rate and type first if present
+        if 'success_rate' in eff:
+            sr = eff['success_rate']
+            # show as percent with sign where relevant
+            items.append(f"Success Rate: {sr}%")
         if 'type' in eff:
             items.append(f"Type: {eff['type']}")
         # include numeric/stat effects (skip equipment list for now)
@@ -671,9 +675,9 @@ def TA_catalyst_page():
         if eq:
             # ensure we display a short list like "applies: weapon/accessory"
             if isinstance(eq, list):
-                items.append(f"Works on: {', '.join(eq)}")
+                items.append(f"Applies to: {', '.join(eq)}")
             else:
-                items.append(f"Works on: {eq}")
+                items.append(f"Applies to: {eq}")
 
         # make a compact display string: name (SR, mode; stats; applies)
         return f"{name} ({'; '.join(items)})"
