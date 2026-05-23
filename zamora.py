@@ -5,7 +5,7 @@ st.set_page_config(layout="wide")
 
 item_type = ['equipment','TA materials','catalysts']
 
-equipment_list = ['sengoku hakase badge','outlaw heart','sweetwater ring','black heart',
+equipment_list = ['sengoku hakase badge','battle-roid','outlaw heart','sweetwater ring','black heart',
                   'absolab hat/overall/shoulder','absolab shoes/glove/cape','absolab weapon',
                   'pno secondary',
                   'arcane hat/overall/shoulder','arcane shoes/glove/cape','arcane weapon', 
@@ -184,7 +184,14 @@ mats = [
                         'sealed wiseman stone':3,
                         'sealed warrior stone':3,
                         'sealed saint stone':3}},
-
+    {'battle-roid' :{'commerci denaro': 500,
+                     'gollux coin':10,
+                     'power crystal':100,
+                     'wisdom crystal':100,
+                     'dex crystal':100,
+                     'luk crystal':100,
+                     'dark crystal':100}},
+  
     {'black heart':{'outlaw heart':1,
                     'damaged black heart':3,
                     'superior lidium heart':2,
