@@ -508,7 +508,7 @@ mats = [
     {'aura crystal':{'emerald essence':2,
                      'black scroll (level 2)':3,
                      'soul elixir':10,
-                     'condensed crystal":2,
+                     'condensed crystal':2,
                      'forever unrelenting flame':2}},
     {'piece of courage':{'miraculous chaos scroll 50%':3,
                          'chaos scroll of goodness 50%':3,
