@@ -6,9 +6,9 @@ st.set_page_config(layout="wide")
 item_type = ['equipment','TA materials','catalysts']
 
 equipment_list = ['sengoku hakase badge','battle-roid','outlaw heart','sweetwater ring','black heart',
-                  'absolab hat','absolab overall','absolab shoulder','absolab shoes','absolab glove','absolab cape','absolab weapon',
+                  'absolab hat','absolab overall','absolab shoulder','absolab shoes','absolab gloves','absolab cape','absolab weapon',
                   'pno secondary',
-                  'arcane hat','arcane overall','arcane shoulder','arcane shoes','arcane glove','arcane cape','arcane weapon', 
+                  'arcane hat','arcane overall','arcane shoulder','arcane shoes','arcane gloves','arcane cape','arcane weapon', 
                   'genesis weapon']
 
 TA_mat_list = ['black scroll (level 2)','black scroll (level 3)','scroll of secrets','condensed crystal','fine spell essence',
@@ -399,7 +399,7 @@ mats = [
                    'sealed saint stone':9,
                    'corresponding absolab shoes':1}},
   
-    {'arcane glove':{'lust':6,
+    {'arcane gloves':{'lust':6,
                    'grand spell essence':90,
                    'scroll of secrets':8,
                    'condensed crystal':150,
