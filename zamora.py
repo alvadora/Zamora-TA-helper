@@ -128,8 +128,8 @@ mats = [
                     'soul elixir':1}},
 
     {'sealed wiseman stone':{'mana crystal':200,
-                            'rock of time':27,
-                            'wisdom crystal':15,
+                            'rock of time':20,
+                            'wisdom crystal':10,
                             'grand spell essence':12,
                             'brilliant dusk essence':5,
                             'philosopher stone':4,
