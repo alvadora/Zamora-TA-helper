@@ -569,7 +569,7 @@ mats = [
                    'moon rock':10,
                    'star rock':10,
                    'diamond':50,
-                   'condensed crystal':3,
+                   'condensed crystal':10,
                    'sealed wiseman stone':1,
                    'black scroll (level 3)':5,}},
 
