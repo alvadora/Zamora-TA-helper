@@ -89,17 +89,17 @@ mats = [
                                   'soul elixir':3}},
 
     {'black scroll (level 3)': {'black scroll (level 2)':3,
-                                  'soul elixir':15}},
+                                  'soul elixir':5}},
 
     {'scroll of secrets': {'black scroll (level 3)': 2,
                              'soul elixir':18}},
                              
-    {'condensed crystal': {'power crystal':2,
-                             'wisdom crystal':2,
-                             'dex crystal':2,
-                             'luk crystal':2,
-                             'dark crystal':2,
-                             'mana crystal':2,
+    {'condensed crystal': {'power crystal':3,
+                             'wisdom crystal':3,
+                             'dex crystal':3,
+                             'luk crystal':3,
+                             'dark crystal':3,
+                             'mana crystal':3,
                              'basic spell essence':3}},
 
     {'fine spell essence':{'basic spell essence':2,
@@ -114,6 +114,7 @@ mats = [
 
     {'fragment of destiny':{'spark of determination':30,
                               'shadow of annihilation':1}},
+  
     {'dusk essence':{'mana crystal':8,
                        'soul elixir':2}},
 
@@ -121,7 +122,7 @@ mats = [
                                   'grand spell essence':3,
                                   'soul elixir':1}},
 
-    {'dream stone':{'dream fragment':16,
+    {'dream stone':{'dream fragment':8,
                     'soul elixir':1}},
 
     {'rock of time':{'piece of time':10,
@@ -460,19 +461,22 @@ mats = [
 
     {'strength essence':{'basic spell essence':3,
                          'power crystal':2,
+                         'dex crystal':2,
+                         'luk crystal':2,
                          'black scroll (level 1)':1,
                          'soul elixir':1}},
 
     {'magic essence':{'mana crystal':4,
                       'wisdom crystal':2,
+                      'dark crystal':2,
                       'black scroll (level 1)':1}},
 
     {'time essence':{'twisted time':50,
                      'piece of time':10,
-                     'power crystal':1,
-                     'wisdom crystal':1,
-                     'dex crystal':1,
-                     'luk crystal':1,
+                     'power crystal':2,
+                     'wisdom crystal':2,
+                     'dex crystal':2,
+                     'luk crystal':2,
                      'black scroll (level 1)':1,
                      'soul elixir':1}},
 
@@ -499,6 +503,7 @@ mats = [
                      'condensed crystal':2,
                      'black scroll (level 2)':3,
                      'soul elixir':10}},
+  
     {'soul crystal':{'time essence':2,
                      'black scroll (level 2)':3,
                      'soul elixir': 10,
@@ -510,14 +515,15 @@ mats = [
                      'soul elixir':10,
                      'condensed crystal':2,
                      'forever unrelenting flame':2}},
+  
     {'piece of courage':{'miraculous chaos scroll 50%':3,
                          'chaos scroll of goodness 50%':3,
                          'depleted soul stone':5,
-                         'confusion fragment':100,
-                         'twisted time':666,
+                         'confusion fragment':111,
+                         'twisted time':111,
                          'primal essence':3,
-                         'moon rock':3,
-                         'star rock':3,
+                         'moon rock':6,
+                         'star rock':6,
                          'black scroll (level 3)':3}},
   
     {'dexterity stone':{'moon rock':5,
@@ -604,14 +610,14 @@ mats = [
                     'star rock':6,
                     'depleted soul stone':30}},
 
-    {'moon flower':{'twisted time':1000,
-                       'mana crystal':100,
+    {'moon flower':{'twisted time':100,
+                       'mana crystal':50,
                        'philosopher stone':15,
                        'forever unrelenting flame':10,
-                       'grand spell essence':5,
+                       'grand spell essence':15,
                        'moon rock':5,
                        'scroll of secrets':1,
-                       'sealed saint stone':3,
+                       'sealed saint stone':1,
                        'soul elixir':10,
                        'life crystal':1}},
 
